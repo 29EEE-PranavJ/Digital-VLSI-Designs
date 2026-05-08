@@ -1,0 +1,108 @@
+# SR Flip-Flop Truth Table
+
+| S | R | Q(next) |
+|---|---|----------|
+| 0 | 0 | Q |
+| 0 | 1 | 0 |
+| 1 | 0 | 1 |
+| 1 | 1 | Invalid |
+
+## Boolean Expression
+
+Q(next) = S + R'Q
+
+## Key Observation
+- S = 1 sets the output
+- R = 1 resets the output
+- S = R = 1 is invalid
+
+# JK Flip-Flop Truth Table
+
+| J | K | Q(next) |
+|---|---|----------|
+| 0 | 0 | Q |
+| 0 | 1 | 0 |
+| 1 | 0 | 1 |
+| 1 | 1 | Toggle |
+
+## Boolean Expression
+
+Q(next) = JQ' + K'Q
+
+## Key Observation
+- Removes invalid state of SR Flip-Flop
+- J = K = 1 causes toggling
+
+# D Flip-Flop Truth Table
+
+| D | Q(next) |
+|---|----------|
+| 0 | 0 |
+| 1 | 1 |
+
+## Boolean Expression
+
+Q(next) = D
+
+## Key Observation
+- Output follows input at clock edge
+- Widely used in registers and memory
+
+# T Flip-Flop Truth Table
+
+| T | Q(next) |
+|---|----------|
+| 0 | Q |
+| 1 | Toggle |
+
+## Boolean Expression
+
+Q(next) = TQ' + T'Q
+
+## Key Observation
+- Toggles when T = 1
+- Used in counters and frequency division
+
+# Excitation Tables for Flip-Flops
+
+## SR Flip-Flop
+
+| Q | Q(next) | S | R |
+|---|----------|---|---|
+| 0 | 0 | 0 | X |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 0 | 1 |
+| 1 | 1 | X | 0 |
+
+---
+
+## JK Flip-Flop
+
+| Q | Q(next) | J | K |
+|---|----------|---|---|
+| 0 | 0 | 0 | X |
+| 0 | 1 | 1 | X |
+| 1 | 0 | X | 1 |
+| 1 | 1 | X | 0 |
+
+---
+
+## D Flip-Flop
+
+| Q | Q(next) | D |
+|---|----------|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 0 |
+| 1 | 1 | 1 |
+
+---
+
+## T Flip-Flop
+
+| Q | Q(next) | T |
+|---|----------|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 0 |
