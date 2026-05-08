@@ -12,9 +12,12 @@
 Q(next) = S + R'Q
 
 ## Key Observation
+
 - S = 1 sets the output
 - R = 1 resets the output
 - S = R = 1 is invalid
+
+---
 
 # JK Flip-Flop Truth Table
 
@@ -30,8 +33,11 @@ Q(next) = S + R'Q
 Q(next) = JQ' + K'Q
 
 ## Key Observation
+
 - Removes invalid state of SR Flip-Flop
 - J = K = 1 causes toggling
+
+---
 
 # D Flip-Flop Truth Table
 
@@ -45,8 +51,11 @@ Q(next) = JQ' + K'Q
 Q(next) = D
 
 ## Key Observation
+
 - Output follows input at clock edge
 - Widely used in registers and memory
+
+---
 
 # T Flip-Flop Truth Table
 
@@ -60,8 +69,11 @@ Q(next) = D
 Q(next) = TQ' + T'Q
 
 ## Key Observation
+
 - Toggles when T = 1
 - Used in counters and frequency division
+
+---
 
 # Excitation Tables for Flip-Flops
 
