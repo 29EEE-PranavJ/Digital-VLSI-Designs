@@ -1,0 +1,67 @@
+
+
+module t_flipflop (
+    input clk,
+    input reset,
+    input T,
+    output reg Q
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+        Q <= 1'b0;
+
+    else if (T)
+        Q <= ~Q;
+
+    else
+        Q <= Q;
+end
+
+endmodule
+
+
+
+module up_down_counter (
+    input clk,
+    input reset,
+    input mode,          // mode = 1 --> UP Counter
+                          // mode = 0 --> DOWN Counter
+    output [2:0] Q
+);
+
+
+wire T0, T1, T2;
+
+assign T0 = 1'b1;
+
+assign T1 = (mode & Q[0]) |
+            (~mode & ~Q[0]);
+
+assign T2 = (mode & Q[1] & Q[0]) |
+            (~mode & ~Q[1] & ~Q[0]);
+
+
+t_flipflop FF0 (
+    .clk(clk),
+    .reset(reset),
+    .T(T0),
+    .Q(Q[0])
+);
+
+t_flipflop FF1 (
+    .clk(clk),
+    .reset(reset),
+    .T(T1),
+    .Q(Q[1])
+);
+
+t_flipflop FF2 (
+    .clk(clk),
+    .reset(reset),
+    .T(T2),
+    .Q(Q[2])
+);
+
+endmodule
