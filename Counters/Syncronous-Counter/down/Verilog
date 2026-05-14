@@ -1,0 +1,69 @@
+
+module t_flipflop (
+    input clk,
+    input reset,
+    input T,
+    output reg Q
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+        Q <= 1'b1;
+    else if (T)
+        Q <= ~Q;
+    else
+        Q <= Q;
+end
+
+endmodule
+
+
+
+
+module sync_down_counter (
+    input clk,
+    input reset,
+    output [3:0] Q
+);
+
+// Simplified SOP Expressions
+wire T0, T1, T2, T3;
+
+assign T0 = 1'b1;
+assign T1 = ~Q[0];
+assign T2 = ~Q[1] & ~Q[0];
+assign T3 = ~Q[2] & ~Q[1] & ~Q[0];
+
+
+
+
+t_flipflop FF0 (
+    .clk(clk),
+    .reset(reset),
+    .T(T0),
+    .Q(Q[0])
+);
+
+t_flipflop FF1 (
+    .clk(clk),
+    .reset(reset),
+    .T(T1),
+    .Q(Q[1])
+);
+
+t_flipflop FF2 (
+    .clk(clk),
+    .reset(reset),
+    .T(T2),
+    .Q(Q[2])
+);
+
+t_flipflop FF3 (
+    .clk(clk),
+    .reset(reset),
+    .T(T3),
+    .Q(Q[3])
+);
+
+endmodule
