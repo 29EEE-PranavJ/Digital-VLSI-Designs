@@ -29,9 +29,6 @@ This repository contains Verilog HDL implementations of commonly used arithmetic
 | Ripple Carry Adder | Multi-bit adder using cascaded Full Adders |
 | Carry Lookahead Adder | High-speed adder using carry generation logic |
 | Carry Save Adder | Reduces addition delay in multipliers |
-| Binary Adder-Subtractor | Performs addition and subtraction using complement arithmetic |
-
-
 
 ---
 
