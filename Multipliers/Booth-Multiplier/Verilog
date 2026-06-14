@@ -2,12 +2,46 @@
 // 4-bit Signed Booth Multiplier
 //=====================================================
 
-module booth_multiplier (
-    input  signed [3:0] A,
-    input  signed [3:0] B,
-    output signed [7:0] P
+module booth_multiplier_4bit_comb (
+    input  signed [3:0] X, // Multiplicand
+    input  signed [3:0] Y, // Multiplier
+    output signed [7:0] P  // Signed Product
 );
 
-assign P = A * B;
+    // Intermediate variables to simulate the 4 iterative steps
+    reg signed [7:0] p0, p1, p2, p3;
+
+    always @(*) begin
+        // Step 1: Evaluate Y[0] and implicit Y[-1]=0
+        case ({Y[0], 1'b0})
+            2'b01:   p0 = $signed({X, 4'b0}) >>> 1;
+            2'b10:   p0 = $signed({-X, 4'b0}) >>> 1;
+            default: p0 = 8'sb0;
+        endcase
+
+        // Step 2: Evaluate Y[1] and Y[0]
+        case (Y[1:0])
+            2'b01:   p1 = $signed(p0 + {X, 4'b0}) >>> 1;
+            2'b10:   p1 = $signed(p0 + {-X, 4'b0}) >>> 1;
+            default: p1 = $signed(p0) >>> 1;
+        endcase
+
+        // Step 3: Evaluate Y[2] and Y[1]
+        case (Y[2:1])
+            2'b01:   p2 = $signed(p1 + {X, 4'b0}) >>> 1;
+            2'b10:   p2 = $signed(p1 + {-X, 4'b0}) >>> 1;
+            default: p2 = $signed(p1) >>> 1;
+        endcase
+
+        // Step 4: Evaluate Y[3] and Y[2]
+        case (Y[3:2])
+            2'b01:   p3 = $signed(p2 + {X, 4'b0});
+            2'b10:   p3 = $signed(p2 + {-X, 4'b0});
+            default: p3 = p2;
+        endcase
+    end
+
+    // Final Product assignment
+    assign P = p3;
 
 endmodule
