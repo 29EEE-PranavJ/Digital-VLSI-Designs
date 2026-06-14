@@ -1,0 +1,115 @@
+//=====================================================
+// Half Adder
+//=====================================================
+
+module half_adder (
+    input A,
+    input B,
+    output Sum,
+    output Carry
+);
+
+assign Sum   = A ^ B;
+assign Carry = A & B;
+
+endmodule
+
+
+//=====================================================
+// Full Adder
+//=====================================================
+
+module full_adder (
+    input A,
+    input B,
+    input Cin,
+    output Sum,
+    output Cout
+);
+
+assign Sum  = A ^ B ^ Cin;
+assign Cout = (A & B) | (B & Cin) | (A & Cin);
+
+endmodule
+
+
+//=====================================================
+// 4x4 Wallace Tree Multiplier
+//=====================================================
+
+module wallace_tree_multiplier (
+    input  [3:0] A,
+    input  [3:0] B,
+    output [7:0] P
+);
+
+// Partial Products
+
+wire p00,p01,p02,p03;
+wire p10,p11,p12,p13;
+wire p20,p21,p22,p23;
+wire p30,p31,p32,p33;
+
+assign p00 = A[0] & B[0];
+assign p01 = A[0] & B[1];
+assign p02 = A[0] & B[2];
+assign p03 = A[0] & B[3];
+
+assign p10 = A[1] & B[0];
+assign p11 = A[1] & B[1];
+assign p12 = A[1] & B[2];
+assign p13 = A[1] & B[3];
+
+assign p20 = A[2] & B[0];
+assign p21 = A[2] & B[1];
+assign p22 = A[2] & B[2];
+assign p23 = A[2] & B[3];
+
+assign p30 = A[3] & B[0];
+assign p31 = A[3] & B[1];
+assign p32 = A[3] & B[2];
+assign p33 = A[3] & B[3];
+
+// Wallace Reduction
+
+wire s1,c1,s2,c2,s3,c3,s4,c4;
+wire s5,c5,s6,c6,s7,c7;
+
+// Stage 1
+
+half_adder HA1(p01,p10,s1,c1);
+
+full_adder FA1(p02,p11,p20,s2,c2);
+
+full_adder FA2(p03,p12,p21,s3,c3);
+
+half_adder HA2(p13,p22,s4,c4);
+
+full_adder FA3(p23,p32,p31,s5,c5);
+
+// Stage 2
+
+half_adder HA3(s2,c1,s6,c6);
+
+full_adder FA4(s3,c2,p30,s7,c7);
+
+// Product Generation
+
+assign P[0] = p00;
+assign P[1] = s1;
+assign P[2] = s6;
+
+// Final Carry Propagation
+
+wire [4:0] temp;
+
+assign temp = {c5,p33,s5,s4,c3}
+            + {1'b0,c4,c7,c6,1'b0};
+
+assign P[3] = s7;
+assign P[4] = temp[0];
+assign P[5] = temp[1];
+assign P[6] = temp[2];
+assign P[7] = temp[3];
+
+endmodule
