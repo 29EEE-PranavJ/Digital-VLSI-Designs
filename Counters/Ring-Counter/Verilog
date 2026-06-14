@@ -1,0 +1,60 @@
+//=====================================================
+// D Flip-Flop using Case Statement
+//=====================================================
+
+module d_flipflop (
+    input clk,
+    input reset,
+    input D,
+    output reg Q
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+        Q <= 1'b0;
+    else
+    begin
+        case(D)
+            1'b0 : Q <= 1'b0;
+            1'b1 : Q <= 1'b1;
+        endcase
+    end
+end
+
+endmodule
+
+
+//=====================================================
+// 4-bit Ring Counter using D Flip-Flops
+//=====================================================
+
+module ring_counter (
+    input clk,
+    input reset,
+    output [3:0] Q
+);
+
+reg q0, q1, q2, q3;
+
+always @(posedge clk or posedge reset)
+begin
+    if(reset)
+    begin
+        q3 <= 1'b0;
+        q2 <= 1'b0;
+        q1 <= 1'b0;
+        q0 <= 1'b1;      // Initial one-hot state
+    end
+    else
+    begin
+        q3 <= q2;
+        q2 <= q1;
+        q1 <= q0;
+        q0 <= q3;
+    end
+end
+
+assign Q = {q3, q2, q1, q0};
+
+endmodule
