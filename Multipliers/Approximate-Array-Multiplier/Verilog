@@ -1,0 +1,36 @@
+module approx_array_multiplier_4x4 (
+    input  [3:0] A,
+    input  [3:0] B,
+    output [7:0] P
+);
+
+    wire [3:0] pp0, pp1, pp2, pp3;
+
+    // Partial products
+    assign pp0 = A & {4{B[0]}};
+    assign pp1 = A & {4{B[1]}};
+    assign pp2 = A & {4{B[2]}};
+    assign pp3 = A & {4{B[3]}};
+
+    wire [7:0] s;
+
+    // Approximate accumulation (reduced carry logic)
+    assign s[0] = pp0[0];
+
+    assign s[1] = pp0[1] ^ pp1[0];
+
+    assign s[2] = pp0[2] ^ pp1[1] ^ pp2[0];
+
+    assign s[3] = pp0[3] ^ pp1[2] ^ pp2[1];
+
+    assign s[4] = pp1[3] ^ pp2[2] ^ pp3[0];
+
+    assign s[5] = pp2[3] ^ pp3[1];
+
+    assign s[6] = pp3[2];
+
+    assign s[7] = pp3[3];
+
+    assign P = s;
+
+endmodule
