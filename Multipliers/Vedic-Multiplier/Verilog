@@ -1,0 +1,87 @@
+module vedic_multiplier_4x4 (
+    input  [3:0] A,
+    input  [3:0] B,
+    output [7:0] P
+);
+
+    wire a0 = A[0], a1 = A[1], a2 = A[2], a3 = A[3];
+    wire b0 = B[0], b1 = B[1], b2 = B[2], b3 = B[3];
+
+    // Partial products
+    wire p00 = a0 & b0;
+
+    wire p10 = a1 & b0;
+    wire p01 = a0 & b1;
+
+    wire p20 = a2 & b0;
+    wire p11 = a1 & b1;
+    wire p02 = a0 & b2;
+
+    wire p30 = a3 & b0;
+    wire p21 = a2 & b1;
+    wire p12 = a1 & b2;
+    wire p03 = a0 & b3;
+
+    wire p31 = a3 & b1;
+    wire p22 = a2 & b2;
+    wire p13 = a1 & b3;
+
+    wire p32 = a3 & b2;
+    wire p23 = a2 & b3;
+
+    wire p33 = a3 & b3;
+
+    // Stage signals
+    wire s1, c1;
+    wire s2_0, s2_1, c2_0, c2_1;
+    wire s3_0, c3_0;
+
+    // -------------------------
+    // Stage 1
+    // -------------------------
+    assign P[0] = p00;
+
+    assign s1 = p10 ^ p01;
+    assign c1 = p10 & p01;
+
+    assign P[1] = s1;
+
+    // -------------------------
+    // Stage 2
+    // -------------------------
+    wire t2_0 = p20 ^ p11 ^ p02;
+    wire t2_1 = (p20 & p11) | (p11 & p02) | (p20 & p02);
+
+    assign P[2] = t2_0;
+
+    // -------------------------
+    // Stage 3
+    // -------------------------
+    wire t3_0 = p30 ^ p21 ^ p12 ^ p03;
+    wire t3_1 = (p30&p21) | (p21&p12) | (p12&p03) | (p30&p12) | (p21&p03);
+
+    assign P[3] = t3_0;
+
+    // -------------------------
+    // Stage 4
+    // -------------------------
+    wire t4_0 = p31 ^ p22 ^ p13 ^ t2_1;
+    wire t4_1 = (p31&p22) | (p22&p13) | (p31&p13) | (p31&t2_1) | (p22&t2_1) | (p13&t2_1);
+
+    assign P[4] = t4_0;
+
+    // -------------------------
+    // Stage 5
+    // -------------------------
+    wire t5_0 = p32 ^ p23 ^ t3_1 ^ t4_1;
+    wire t5_1 = (p32&p23) | (p32&t3_1) | (p32&t4_1) | (p23&t3_1) | (p23&t4_1) | (t3_1&t4_1);
+
+    assign P[5] = t5_0;
+
+    // -------------------------
+    // Stage 6 & 7
+    // -------------------------
+    assign P[6] = p33 ^ t5_1;
+    assign P[7] = p33 & t5_1;
+
+endmodule
