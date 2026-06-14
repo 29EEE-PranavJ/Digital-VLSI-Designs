@@ -4,7 +4,7 @@
 ------------------------------------------------------------
 OVERVIEW:
 ------------------------------------------------------------
-This project implements a 4-bit approximate array multiplier designed for reduced hardware complexity, lower power consumption, and faster computation compared to a conventional exact array multiplier. 
+This file implements a 4-bit approximate array multiplier designed for reduced hardware complexity, lower power consumption, and faster computation compared to a conventional exact array multiplier. 
 
 The design introduces controlled approximation by simplifying carry propagation in lower significant bits while maintaining reasonable accuracy in higher significant bits.
 
