@@ -1,0 +1,197 @@
+//=====================================================
+// Half Adder
+//=====================================================
+
+module half_adder (
+    input A,
+    input B,
+    output Sum,
+    output Carry
+);
+
+assign Sum   = A ^ B;
+assign Carry = A & B;
+
+endmodule
+
+
+//=====================================================
+// Full Adder
+//=====================================================
+
+module full_adder (
+    input A,
+    input B,
+    input Cin,
+    output Sum,
+    output Cout
+);
+
+assign Sum  = A ^ B ^ Cin;
+assign Cout = (A & B) | (B & Cin) | (A & Cin);
+
+endmodule
+
+
+//=====================================================
+// 4x4 Array Multiplier
+//=====================================================
+
+module array_multiplier_4x4 (
+    input  [3:0] A,
+    input  [3:0] B,
+    output [7:0] P
+);
+
+// Partial Products
+
+wire p00,p01,p02,p03;
+wire p10,p11,p12,p13;
+wire p20,p21,p22,p23;
+wire p30,p31,p32,p33;
+
+assign p00 = A[0] & B[0];
+assign p01 = A[0] & B[1];
+assign p02 = A[0] & B[2];
+assign p03 = A[0] & B[3];
+
+assign p10 = A[1] & B[0];
+assign p11 = A[1] & B[1];
+assign p12 = A[1] & B[2];
+assign p13 = A[1] & B[3];
+
+assign p20 = A[2] & B[0];
+assign p21 = A[2] & B[1];
+assign p22 = A[2] & B[2];
+assign p23 = A[2] & B[3];
+
+assign p30 = A[3] & B[0];
+assign p31 = A[3] & B[1];
+assign p32 = A[3] & B[2];
+assign p33 = A[3] & B[3];
+
+
+// Internal Wires
+
+wire s1,c1,s2,c2,s3,c3;
+wire s4,c4,s5,c5,s6,c6;
+wire s7,c7,s8,c8,s9,c9;
+wire s10,c10,s11,c11;
+
+
+// Product Bit P0
+
+assign P[0] = p00;
+
+
+// Column 1
+
+half_adder HA1 (
+    .A(p01),
+    .B(p10),
+    .Sum(P[1]),
+    .Carry(c1)
+);
+
+
+// Column 2
+
+full_adder FA1 (
+    .A(p02),
+    .B(p11),
+    .Cin(c1),
+    .Sum(s1),
+    .Cout(c2)
+);
+
+half_adder HA2 (
+    .A(s1),
+    .B(p20),
+    .Sum(P[2]),
+    .Carry(c3)
+);
+
+
+// Column 3
+
+full_adder FA2 (
+    .A(p03),
+    .B(p12),
+    .Cin(c2),
+    .Sum(s2),
+    .Cout(c4)
+);
+
+full_adder FA3 (
+    .A(s2),
+    .B(p21),
+    .Cin(c3),
+    .Sum(s3),
+    .Cout(c5)
+);
+
+half_adder HA3 (
+    .A(s3),
+    .B(p30),
+    .Sum(P[3]),
+    .Carry(c6)
+);
+
+
+// Column 4
+
+full_adder FA4 (
+    .A(p13),
+    .B(p22),
+    .Cin(c4),
+    .Sum(s4),
+    .Cout(c7)
+);
+
+full_adder FA5 (
+    .A(s4),
+    .B(p31),
+    .Cin(c5),
+    .Sum(s5),
+    .Cout(c8)
+);
+
+full_adder FA6 (
+    .A(s5),
+    .B(c6),
+    .Cin(1'b0),
+    .Sum(P[4]),
+    .Cout(c9)
+);
+
+
+// Column 5
+
+full_adder FA7 (
+    .A(p23),
+    .B(p32),
+    .Cin(c7),
+    .Sum(s6),
+    .Cout(c10)
+);
+
+full_adder FA8 (
+    .A(s6),
+    .B(c8),
+    .Cin(c9),
+    .Sum(P[5]),
+    .Cout(c11)
+);
+
+
+// Column 6
+
+full_adder FA9 (
+    .A(p33),
+    .B(c10),
+    .Cin(c11),
+    .Sum(P[6]),
+    .Cout(P[7])
+);
+
+endmodule
