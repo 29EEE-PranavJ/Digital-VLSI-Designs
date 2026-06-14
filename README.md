@@ -5,9 +5,8 @@ This repository contains digital design architectures, arithmetic circuits, sequ
 ## Topics Covered
 - Flip-Flops
 - Counters
-- FSM Design
 - Arithmetic Circuits
-- Wallace Tree Multipliers
+- Multipliers
 - Compressor-Based Architectures
 - Verilog HDL
 
@@ -19,3 +18,7 @@ This repository contains digital design architectures, arithmetic circuits, sequ
 
 ## Goal
 To explore high-speed and optimized digital hardware architectures relevant to VLSI systems, processors, DSP, and AI acceleration.
+
+## Author
+
+Pranav J
