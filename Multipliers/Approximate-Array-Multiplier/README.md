@@ -1,5 +1,5 @@
-PROJECT TITLE:
-Approximate 4×4 Array Multiplier
+
+## Approximate 4×4 Array Multiplier
 
 ------------------------------------------------------------
 OVERVIEW:
@@ -70,3 +70,7 @@ FUTURE ENHANCEMENTS:
 - Integration into approximate DSP/AI accelerator pipeline
 
 ------------------------------------------------------------
+
+## Author
+
+Pranav J
