@@ -22,8 +22,6 @@ These counters are fundamental building blocks in:
 | Mod-N Counter | Counts up to a specific modulus value |
 | Ring Counter | Circular shift register based counter |
 | Johnson Counter | Twisted ring counter with feedback |
-| Gray Code Counter | Generates Gray code sequence |
-| Frequency Divider | Divides input clock frequency |
 
 
 ---
@@ -43,6 +41,9 @@ These counters are fundamental building blocks in:
 # Future Improvements
 
 Planned advanced counter architectures:
+
+-Frequency Divider
+-Gray Code Counter
 - Clock Gated Counters
 - Low Power Counters
 - LFSR Counters
