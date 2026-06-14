@@ -19,7 +19,6 @@ These counters are fundamental building blocks in:
 | Asynchronous Ripple Counter | Flip-flops triggered sequentially causing ripple delay |
 | Synchronous Binary Counter | All flip-flops triggered by same clock |
 | Up/Down Counter | Supports increment and decrement operations |
-| Mod-N Counter | Counts up to a specific modulus value |
 | Ring Counter | Circular shift register based counter |
 | Johnson Counter | Twisted ring counter with feedback |
 
