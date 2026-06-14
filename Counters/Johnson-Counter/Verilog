@@ -1,0 +1,89 @@
+//=====================================================
+// D Flip-Flop using Case Statement
+//=====================================================
+
+module d_flipflop (
+    input clk,
+    input reset,
+    input D,
+    output reg Q
+);
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+        Q <= 1'b0;
+    else
+    begin
+        case (D)
+            1'b0 : Q <= 1'b0;
+            1'b1 : Q <= 1'b1;
+        endcase
+    end
+end
+
+endmodule
+
+
+//=====================================================
+// 4-bit Johnson Counter using D Flip-Flops
+//=====================================================
+
+module johnson_counter (
+    input clk,
+    input reset,
+    output [3:0] Q
+);
+
+wire q0, q1, q2, q3;
+
+// D Inputs
+
+wire d0, d1, d2, d3;
+
+assign d0 = ~q3;
+assign d1 = q0;
+assign d2 = q1;
+assign d3 = q2;
+
+
+//=====================================================
+// D Flip-Flop Instantiations
+//=====================================================
+
+d_flipflop FF0 (
+    .clk(clk),
+    .reset(reset),
+    .D(d0),
+    .Q(q0)
+);
+
+d_flipflop FF1 (
+    .clk(clk),
+    .reset(reset),
+    .D(d1),
+    .Q(q1)
+);
+
+d_flipflop FF2 (
+    .clk(clk),
+    .reset(reset),
+    .D(d2),
+    .Q(q2)
+);
+
+d_flipflop FF3 (
+    .clk(clk),
+    .reset(reset),
+    .D(d3),
+    .Q(q3)
+);
+
+
+//=====================================================
+// Output Assignment
+//=====================================================
+
+assign Q = {q3, q2, q1, q0};
+
+endmodule
